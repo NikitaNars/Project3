@@ -6,11 +6,11 @@ class SmartPointer
 {
 public:
 	SmartPointer():data_(nullptr){}
-	SmartPointer(Type* data):data_(nullptr){}
+	SmartPointer(Type* data):data_(data){}
 	~SmartPointer() { if (data_)delete data_; }
 
 	Type& operator*() { return *data_; }
-	Type* operator->() { return *data_; }
+	Type* operator->() { return data_; }
 
 	void SetData(Type* data) { data_ = data;}
 	Type* GetData() { return data_;}
@@ -23,14 +23,15 @@ struct My
 	float b;
 	bool c;
 };
-void F00(SmartPointer<My> obj)
+void F00(SmartPointer<My> &obj)
 {
-	std::cout << obj->a;
+	std::cout << obj->b;
 }
 
 
 int main()
 {
-	SmartPointer<My> obj;
+	SmartPointer<My> obj (new My{ 1, 2.2f, true });
+	F00(obj);
 
 }
